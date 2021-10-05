@@ -39,12 +39,12 @@ class Commands extends Command implements PluginIdentifiableCommand {
             switch (strtolower($args[0])) {
                 case "ui":
                     if (!$sender->hasPermission("simplenpc.ui")) {
-                        $sender->sendMessage(TextFormat::RED . "You don't have permission");
+                        $sender->sendMessage(TextFormat::RED . "No tienes permiso para eso.");
                         return true;
                     }
 
                     if (!$sender instanceof Player) {
-                        $sender->sendMessage("Only player can run this command");
+                        $sender->sendMessage("Solo un jugador en juego puede usar este comando.");
                         return true;
                     }
 
@@ -52,36 +52,36 @@ class Commands extends Command implements PluginIdentifiableCommand {
                     break;
                 case "reload":
                     if (!$sender->hasPermission("simplenpc.reload")) {
-                        $sender->sendMessage(TextFormat::RED . "You don't have permission");
+                        $sender->sendMessage(TextFormat::RED . "No tienes permiso para eso.");
                         return true;
                     }
 
                     $plugin->initConfiguration();
-                    $sender->sendMessage(TextFormat::GREEN . "SimpleNPC Config reloaded successfully!");
+                    $sender->sendMessage(TextFormat::GREEN . "La configuración se a recargado satisfactoriamente.");
                     break;
                 case "id":
                     if (!$sender->hasPermission("simplenpc.id")) {
-                        $sender->sendMessage(TextFormat::RED . "You don't have permission");
+                        $sender->sendMessage(TextFormat::RED . "No tienes permiso para eso.");
                         return true;
                     }
 
                     if (!isset($plugin->idPlayers[$sender->getName()])) {
                         $plugin->idPlayers[$sender->getName()] = true;
-                        $sender->sendMessage(TextFormat::DARK_GREEN . "Hit the npc that you want to see the ID");
+                        $sender->sendMessage(TextFormat::DARK_GREEN . "Presione el NPC para ver su ID.);
                     } else {
                         unset($plugin->idPlayers[$sender->getName()]);
-                        $sender->sendMessage(TextFormat::GREEN . "Tap to get NPC ID has been canceled");
+                        $sender->sendMessage(TextFormat::GREEN . "Tocar para obtener la ID del NPC se ha cancelado.");
                     }
                     break;
                 case "spawn":
                 case "add":
                     if (!$sender instanceof Player) {
-                        $sender->sendMessage("Only player can run this command!");
+                        $sender->sendMessage("Solo un jugador en juego puede usar este comando.");
                         return true;
                     }
 
                     if (!$sender->hasPermission("simplenpc.spawn")) {
-                        $sender->sendMessage(TextFormat::RED . "You don't have permission");
+                        $sender->sendMessage(TextFormat::RED . "No tienes permiso para eso.");
                         return true;
                     }
 
@@ -90,10 +90,10 @@ class Commands extends Command implements PluginIdentifiableCommand {
                             if (is_a(SimpleNPC::getInstance()->getRegisteredNPC()[strtolower($args[1]) . "_snpc"][0], CustomHuman::class, true)) {
                                 if (isset($args[3])) {
                                     if (!preg_match('/https?:\/\/[^?]*\.png(?![\w.\-_])/', $args[3])) {
-                                        $sender->sendMessage(TextFormat::RED . "Invalid skin url file format! (Only PNG Supported)");
+                                        $sender->sendMessage(TextFormat::RED . "URL o formato de archivo inválido (solo se soporta el formato PNG).");
                                         return true;
                                     }
-                                    $sender->sendMessage(TextFormat::DARK_GREEN . "Creating " . ucfirst($args[1]) . " NPC with nametag $args[2] for you...");
+                                    $sender->sendMessage(TextFormat::DARK_GREEN . "Creando " . ucfirst($args[1]) . " NPC con el nametag $args[2] para usted...");
                                     $id = NPCManager::getInstance()->spawnNPC(strtolower($args[1]) . "_snpc", $sender, $args[2], null, null, $sender->getSkin()->getSkinData());
 
                                     if ($id !== null) {
@@ -120,16 +120,16 @@ class Commands extends Command implements PluginIdentifiableCommand {
                             }
                             $sender->sendMessage(TextFormat::DARK_GREEN . "Creating " . ucfirst($args[1]) . " NPC without nametag for you...");
                         } else {
-                            $sender->sendMessage(TextFormat::RED . "Invalid entity type or entity not registered!");
+                            $sender->sendMessage(TextFormat::RED . "Tipo de entidad no válida o entidad no registrada.");
                         }
                     } else {
-                        $sender->sendMessage(TextFormat::RED . "Usage: /snpc spawn <type> optional: <nametag> <skinUrl>");
+                        $sender->sendMessage(TextFormat::RED . "Uso: /snpc spawn <tipo de entidad> opcional: <nametag> <skinUrl>");
                     }
                     break;
                 case "delete":
                 case "remove":
                     if (!$sender->hasPermission("simplenpc.remove")) {
-                        $sender->sendMessage(TextFormat::RED . "You don't have permission");
+                        $sender->sendMessage(TextFormat::RED . "No tienes permiso para eso.");
                         return true;
                     }
 
@@ -138,7 +138,7 @@ class Commands extends Command implements PluginIdentifiableCommand {
 
                         if ($entity instanceof BaseNPC || $entity instanceof CustomHuman) {
                             if (NPCManager::getInstance()->removeNPC($entity->namedtag->getString("Identifier"), $entity)) {
-                                $sender->sendMessage(TextFormat::GREEN . "The NPC was successfully removed!");
+                                $sender->sendMessage(TextFormat::GREEN . "El NPC se ha removido.");
                             } else {
                                 $sender->sendMessage(TextFormat::YELLOW . "The NPC was failed removed! (File not found)");
                             }
