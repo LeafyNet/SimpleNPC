@@ -67,7 +67,7 @@ class Commands extends Command implements PluginIdentifiableCommand {
 
                     if (!isset($plugin->idPlayers[$sender->getName()])) {
                         $plugin->idPlayers[$sender->getName()] = true;
-                        $sender->sendMessage(TextFormat::DARK_GREEN . "Presione el NPC para ver su ID.);
+                        $sender->sendMessage(TextFormat::DARK_GREEN . "Presione el NPC para ver su ID.");
                     } else {
                         unset($plugin->idPlayers[$sender->getName()]);
                         $sender->sendMessage(TextFormat::GREEN . "Tocar para obtener la ID del NPC se ha cancelado.");
